@@ -12,7 +12,7 @@
 city=casablanca
 weather="wttr.in/$city"
 today=$(date +%Y%m%d)
-weather_report="/Users/pontz/Software-Dev-Ed/Intro-to-Linux-Commands-and-Shell-Scripting/Week-4/logs/raw_data_$today"
+weather_report="/Users/pontz/Projects/weather_report/logs/raw_data_$today"
 
 ## Get the weather data and write it to a file
 # Appending a date stamp to the file name ensures it's a unique name.
@@ -24,7 +24,7 @@ curl "$weather" -o $weather_report
 ## Extract the required data from the raw data
 # Grabs the temperature data from the weather report and stores it in a file
 
-todays_temp="/Users/pontz/Software-Dev-Ed/Intro-to-Linux-Commands-and-Shell-Scripting/Week-4/logs/temperature.txt"
+todays_temp="/Users/pontz/Projects/weather_report/logs/temperature.txt"
 
 grep "°F" $weather_report > $todays_temp
 
