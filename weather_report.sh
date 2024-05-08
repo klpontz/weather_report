@@ -22,7 +22,7 @@ weather_report="/Users/pontz/Projects/weather_report/logs/raw_data_$today"
 
 # Go get the weather data
 
-echo "$(date) - Starting download" >> "tmp/script_output.log
+echo "$(date) - Starting download" >> "tmp/script_output.log"
 curl "$weather" -o $weather_report
 
 # If curl fails (exit status other than 0), the script can either retry the download or exit early.
