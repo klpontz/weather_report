@@ -12,14 +12,30 @@
 city=casablanca
 weather="wttr.in/$city"
 today=$(date +%Y%m%d)
-weather_report="/Users/pontz/Projects/weather_report/logs/raw_data_$today"
 
 ## Get the weather data and write it to a file
 # Appending a date stamp to the file name ensures it's a unique name.
 # This builds a history of the weather forecasts which you can revisit at any time to recover from errors or expand the scope of your reports
 # Using the prescribed date format ensures that when you sort the files, they will be sorted chronologically. It also enables searching for the report for any given date.
 
+weather_report="/Users/pontz/Projects/weather_report/logs/raw_data_$today"
+
+# Go get the weather data
+
+echo "$(date) - Starting download" >> "tmp/script_output.log
 curl "$weather" -o $weather_report
+
+# If curl fails (exit status other than 0), the script can either retry the download or exit early.
+if [ $? -ne 0 ]; then
+	echo "$(date) - Failed to download weather data."  >> "tmp/script_output.log"
+    exit 1
+fi
+
+# Handle missing file gracefully. Don't process if file is non-existent.
+if [ ! -f "$weather_report" ]; then
+	echo "$(date) - Weather report file not found." >> "tmp/script_output.log"
+    exit 1
+fi
 
 ## Extract the required data from the raw data
 # Grabs the temperature data from the weather report and stores it in a file
