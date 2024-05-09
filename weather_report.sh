@@ -1,12 +1,5 @@
 #! /bin/bash
 
-## OJECTIVES OF SCRIPT
-# 1. Download raw weather data
-# 2. Extract data of interest from the raw data
-# 3. Transform the data as required
-# 4. Load the data into a log file using a tabular format
-# 5. Schedule the entire process to run automatically at a set time daily
-
 ## Set the PATH explicitly
 # To avoid issues when running as a cron job
 export PATH=/usr/bin:/bin:/usr/local/bin:$PATH
