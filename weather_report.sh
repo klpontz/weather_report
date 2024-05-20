@@ -42,6 +42,13 @@ extract_specific_temperatures () {
     fc_tmp=$(head -3 "$TEMP_FILE" | tail -1 | tr -s " " | xargs | cut -d "F" -f2 | rev | cut -d " " -f2 | rev)
 }
 
+# Function to get current time components in UTC
+get_time_components () {
+    hour=$(TZ="$LOCATION" date -u +%H) 
+    day=$(TZ="$LOCATION" date -u +%d)
+    month=$(TZ="$LOCATION" date +%m)
+    year=$(TZ="$LOCATION" date +%Y)
+}
 # Main script execution
 download_weather_data
 
@@ -54,12 +61,6 @@ fi
 # Call functions
 extract_temperature_data
 extract_specific_temperatures
-
-## Store the current hour, day, month, and year in corresponding shell variables for our target location
-# -u sets the timezone to UTC
-hour=$(TZ="$LOCATION" date -u +%H) 
-day=$(TZ="$LOCATION" date -u +%d)
-month=$(TZ="$LOCATION" date +%m)
-year=$(TZ="$LOCATION" date +%Y)
+get_time_components
 
 echo -e "$year\t$month\t$day\t$hour\t$obs_tmp\t$fc_tmp" >> rx_poc.log
