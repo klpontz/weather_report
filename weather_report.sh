@@ -11,6 +11,14 @@ CITY=casablanca
 WEATHER="wttr.in/$CITY"
 TODAY=$(date +%Y%m%d)
 WEATHER_REPORT="logs/raw_data_$TODAY"
+LOG_FILE="tmp/script_output.log"
+TEMP_FILE="logs/temperature.txt"
+LOCATION="Morocco/Casablanca"
+
+# Function to log messages with timestamps
+log_message() {
+    echo "$(date) - $1" >> "$LOG_FILE"
+}
 
 # Go get the weather data
 
@@ -44,9 +52,9 @@ fc_tmp=$(head -3 $todays_temp | tail -1 | tr -s " " | xargs | cut -d "F" -f2 | r
 
 ## Store the current hour, day, month, and year in corresponding shell variables for our target location
 # -u sets the timezone to UTC
-hour=$(TZ='Morocco/Casablanca' date -u +%H) 
-day=$(TZ='Morocco/Casablanca' date -u +%d)
-month=$(TZ='Morocco/Casablanca' date +%m)
-year=$(TZ='Morocco/Casablanca' date +%Y)
+hour=$(TZ="$LOCATION" date -u +%H) 
+day=$(TZ="$LOCATION" date -u +%d)
+month=$(TZ="$LOCATION" date +%m)
+year=$(TZ="$LOCATION" date +%Y)
 
 echo -e "$year\t$month\t$day\t$hour\t$obs_tmp\t$fc_tmp" >> rx_poc.log
