@@ -30,10 +30,16 @@ download_weather_data () {
     fi
 }
 
-# Fuction to extract temperature data
+# Function to extract temperature data
 extract_temperature_data () {
     log_message "Starting to extract temperature data."
     grep "°F" "$TODAYS_WEATHER_REPORT" > "$TEMP_FILE"
+}
+
+# Function to extract specific temperature from file
+extract_specific_temperatures () {
+    obs_tmp=$(head -1 "$TEMP_FILE" | tr -s " " | xargs | rev | cut -d " " -f2 | rev)
+    fc_tmp=$(head -3 "$TEMP_FILE" | tail -1 | tr -s " " | xargs | cut -d "F" -f2 | rev | cut -d " " -f2 | rev)
 }
 
 # Main script execution
@@ -47,12 +53,7 @@ fi
 
 # Call functions
 extract_temperature_data
-
-# Extract the current temperature
-obs_tmp=$(head -1 "$TEMP_FILE" | tr -s " " | xargs | rev | cut -d " " -f2 | rev)
-
-# Extract the forecasted temperature for tomorrow at noon
-fc_tmp=$(head -3 "$TEMP_FILE" | tail -1 | tr -s " " | xargs | cut -d "F" -f2 | rev | cut -d " " -f2 | rev)
+extract_specific_temperatures
 
 ## Store the current hour, day, month, and year in corresponding shell variables for our target location
 # -u sets the timezone to UTC
