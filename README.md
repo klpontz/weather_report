@@ -17,3 +17,11 @@ PATH=/usr/bin:/bin:/usr/local/bin
 As written, this will run the script every day at 12:00PM.
 
 The `PATH` is added to ensure that the job has access to all the commands in the script. I found that the script was failing without specifying these paths. These were the standard paths for my system. If you have changed the location of your bin, change these paths to match your system configuration.
+
+## Update Path in Script
+For the script to run, you will need to update this portion of the code at the beginnging of the script. Change the path so that the script changes directories into the directory where you've saved the directory with the script and other directories.
+
+```
+# Ensure script runs in the correct directory as cron 
+cd /LOCATION/OF/DIRECTORY/weather_report
+```

@@ -3,8 +3,8 @@
 # Set the PATH explicitly to avoid issues when running as a cron job
 export PATH=/usr/bin:/bin:/usr/local/bin:$PATH
 
-# Ensure script runs in the correct directory as cron
-cd /Users/pontz/Projects/weather_report
+# Ensure script runs in the correct directory as cron 
+cd /LOCATION/OF/DIRECTORY/weather_report
 
 # Set the variables for downloading via curl and for the date-stamped file name
 CITY=casablanca
