@@ -7,6 +7,8 @@ Hi there, thanks for taking a gander at this shell scipt. This is the first shel
   4. Load the data into a log file using a tabular format
   5. Schedule the entire process to run automatically at a set time daily
 
+As you'll see in the output, the data that is stored in the tablular format is the year, month, day, hour, current temperature, and the forecasted temperature at 12:00PM for the following day.
+
 ## Cron Job
 To schedule a cron job that runs the script automatically at a specific time use the following code. And in case you forgot, open your cron file using the command `crontrab -e`.
 
@@ -25,3 +27,14 @@ For the script to run, you will need to update this portion of the code at the b
 # Ensure script runs in the correct directory as cron 
 cd /LOCATION/OF/DIRECTORY/weather_report
 ```
+
+## Change the Location
+The script is currently set up to pull weather data from Casablanca, Morroco. It's easy enough to change this. Simply, change these variables in the script to the location of your choice.
+
+```
+# Set the variables for downloading via curl and for the date-stamped file name
+CITY=casablanca
+LOCATION="Morocco/Casablanca"
+```
+
+Note: CITY is used in pulling the temperature data for a location and LOCATION is used for pulling the date components in UTC. 

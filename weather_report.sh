@@ -8,12 +8,12 @@ cd /LOCATION/OF/DIRECTORY/weather_report
 
 # Set the variables for downloading via curl and for the date-stamped file name
 CITY=casablanca
+LOCATION="Morocco/Casablanca"
 WEATHER="wttr.in/$CITY"
 TODAY=$(date +%Y%m%d)
 TODAYS_WEATHER_REPORT="logs/raw_data_$TODAY"
 LOG_FILE="tmp/script_output.log"
 TEMP_FILE="logs/temperature.txt"
-LOCATION="Morocco/Casablanca"
 
 # Function to log messages with timestamps
 log_message() {
