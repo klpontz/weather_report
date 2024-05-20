@@ -1,29 +1,21 @@
 #! /bin/bash
 
-## Set the PATH explicitly
-# To avoid issues when running as a cron job
+# Set the PATH explicitly to avoid issues when running as a cron job
 export PATH=/usr/bin:/bin:/usr/local/bin:$PATH
 
-## Ensure script runs in correct directory as cron
-# Allows for relative paths in the script
+# Ensure script runs in the correct directory as cron
 cd /Users/pontz/Projects/weather_report
 
-## Set the variable to prepare to download via curl and get the date to add to the file name
-city=casablanca
-weather="wttr.in/$city"
-today=$(date +%Y%m%d)
-
-## Get the weather data and write it to a file
-# Appending a date stamp to the file name ensures it's a unique name.
-# This builds a history of the weather forecasts which you can revisit at any time to recover from errors or expand the scope of your reports
-# Using the prescribed date format ensures that when you sort the files, they will be sorted chronologically. It also enables searching for the report for any given date.
-
-weather_report="logs/raw_data_$today"
+# Set the variables for downloading via curl and for the date-stamped file name
+CITY=casablanca
+WEATHER="wttr.in/$CITY"
+TODAY=$(date +%Y%m%d)
+WEATHER_REPORT="logs/raw_data_$TODAY"
 
 # Go get the weather data
 
 echo "$(date) - Starting download" >> "tmp/script_output.log"
-curl "$weather" -o $weather_report
+curl "$WEATHER" -o $WEATHER_REPORT
 
 # If curl fails (exit status other than 0), the script can either retry the download or exit early.
 if [ $? -ne 0 ]; then
@@ -32,7 +24,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # Handle missing file gracefully. Don't process if file is non-existent.
-if [ ! -f "$weather_report" ]; then
+if [ ! -f "$WEATHER_REPORT" ]; then
 	echo "$(date) - Weather report file not found." >> "tmp/script_output.log"
     exit 1
 fi
@@ -42,7 +34,7 @@ fi
 
 todays_temp="logs/temperature.txt"
 
-grep "°F" $weather_report > $todays_temp
+grep "°F" $WEATHER_REPORT > $todays_temp
 
 # Extract the current temperature
 obs_tmp=$(head -1 $todays_temp | tr -s " " | xargs | rev | cut -d " " -f2 | rev)
