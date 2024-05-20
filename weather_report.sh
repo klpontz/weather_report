@@ -20,16 +20,18 @@ log_message() {
     echo "$(date) - $1" >> "$LOG_FILE"
 }
 
-# Go get the weather data
+# Function to download weather data
+download_weather_data () {
+    log_message "Starting download"
+    curl "$WEATHER" -o "$TODAYS_WEATHER_REPORT"
+    if [ $? -ne 0 ]; then
+	    log_message "Failed to download weather data."
+        exit 1
+    fi
+}
 
-echo "$(date) - Starting download" >> "tmp/script_output.log"
-curl "$WEATHER" -o "$TODAYS_WEATHER_REPORT"
-
-# If curl fails (exit status other than 0), the script can either retry the download or exit early.
-if [ $? -ne 0 ]; then
-	echo "$(date) - Failed to download weather data."  >> "tmp/script_output.log"
-    exit 1
-fi
+# Main script execution
+download_weather_data
 
 # Handle missing file gracefully. Don't process if file is non-existent.
 if [ ! -f "$TODAYS_WEATHER_REPORT" ]; then
