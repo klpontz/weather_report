@@ -35,7 +35,7 @@ download_weather_data
 
 # Handle missing file gracefully. Don't process if file is non-existent.
 if [ ! -f "$TODAYS_WEATHER_REPORT" ]; then
-	echo "$(date) - Weather report file not found." >> "tmp/script_output.log"
+	log_message "Weather report file not found."
     exit 1
 fi
 
