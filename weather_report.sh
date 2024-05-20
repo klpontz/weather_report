@@ -10,7 +10,7 @@ cd /Users/pontz/Projects/weather_report
 CITY=casablanca
 WEATHER="wttr.in/$CITY"
 TODAY=$(date +%Y%m%d)
-WEATHER_REPORT="logs/raw_data_$TODAY"
+TODAYS_WEATHER_REPORT="logs/raw_data_$TODAY"
 LOG_FILE="tmp/script_output.log"
 TEMP_FILE="logs/temperature.txt"
 LOCATION="Morocco/Casablanca"
@@ -23,7 +23,7 @@ log_message() {
 # Go get the weather data
 
 echo "$(date) - Starting download" >> "tmp/script_output.log"
-curl "$WEATHER" -o $WEATHER_REPORT
+curl "$WEATHER" -o "$TODAYS_WEATHER_REPORT"
 
 # If curl fails (exit status other than 0), the script can either retry the download or exit early.
 if [ $? -ne 0 ]; then
@@ -32,7 +32,7 @@ if [ $? -ne 0 ]; then
 fi
 
 # Handle missing file gracefully. Don't process if file is non-existent.
-if [ ! -f "$WEATHER_REPORT" ]; then
+if [ ! -f "$TODAYS_WEATHER_REPORT" ]; then
 	echo "$(date) - Weather report file not found." >> "tmp/script_output.log"
     exit 1
 fi
@@ -42,7 +42,7 @@ fi
 
 todays_temp="logs/temperature.txt"
 
-grep "°F" $WEATHER_REPORT > $todays_temp
+grep "°F" "$TODAYS_WEATHER_REPORT" > "$todays_temp"
 
 # Extract the current temperature
 obs_tmp=$(head -1 $todays_temp | tr -s " " | xargs | rev | cut -d " " -f2 | rev)
